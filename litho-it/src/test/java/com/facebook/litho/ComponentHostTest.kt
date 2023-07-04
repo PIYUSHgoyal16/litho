@@ -387,6 +387,16 @@ class ComponentHostTest {
   }
 
   @Test
+  fun testComponentContextClickListener() {
+    assertThat(host.componentContextClickListener).isNull()
+    val listener = ComponentContextClickListener()
+    host.componentContextClickListener = listener
+    assertThat(host.componentContextClickListener).isEqualTo(listener)
+    host.componentContextClickListener = null
+    assertThat(host.componentContextClickListener).isNull()
+  }
+
+  @Test
   fun testComponentFocusChangeListener() {
     assertThat(host.componentFocusChangeListener).isNull()
     val listener = ComponentFocusChangeListener()

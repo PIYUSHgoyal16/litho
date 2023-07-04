@@ -99,6 +99,7 @@ public class ComponentHost extends Host implements DisappearingHost {
   private boolean mIsComponentAccessibilityDelegateSet = false;
 
   private ComponentLongClickListener mOnLongClickListener;
+  private ComponentContextClickListener mOnContextClickListener;
   private ComponentFocusChangeListener mOnFocusChangeListener;
   private ComponentTouchListener mOnTouchListener;
   private @Nullable EventHandler<InterceptTouchEvent> mOnInterceptTouchEventHandler;
@@ -566,6 +567,24 @@ public class ComponentHost extends Host implements DisappearingHost {
   @Nullable
   ComponentLongClickListener getComponentLongClickListener() {
     return mOnLongClickListener;
+  }
+
+  /**
+   * Sets a context click listener on this host.
+   *
+   * @param listener The listener to set on this host.
+   */
+  void setComponentContextClickListener(ComponentContextClickListener listener) {
+    mOnContextClickListener = listener;
+    this.setOnContextClickListener(listener);
+  }
+
+  /**
+   * @return The previously set long click listener
+   */
+  @Nullable
+  ComponentContextClickListener getComponentContextClickListener() {
+    return mOnContextClickListener;
   }
 
   /**

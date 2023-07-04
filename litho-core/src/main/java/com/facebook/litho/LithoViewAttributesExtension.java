@@ -20,6 +20,7 @@ import static androidx.core.view.ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_AUTO;
 import static com.facebook.litho.ComponentHost.COMPONENT_NODE_INFO_ID;
 import static com.facebook.litho.LithoMountData.isViewClickable;
 import static com.facebook.litho.LithoMountData.isViewEnabled;
+import static com.facebook.litho.LithoMountData.isViewContextClickable;
 import static com.facebook.litho.LithoMountData.isViewFocusable;
 import static com.facebook.litho.LithoMountData.isViewLongClickable;
 import static com.facebook.litho.LithoMountData.isViewSelected;
@@ -204,6 +205,7 @@ public class LithoViewAttributesExtension
 
     setClickHandler(attributes.getClickHandler(), view);
     setLongClickHandler(attributes.getLongClickHandler(), view);
+    setContextClickHandler(attributes.getContextClickHandler(), view);
     setFocusChangeHandler(attributes.getFocusChangeHandler(), view);
     setTouchHandler(attributes.getTouchHandler(), view);
     setInterceptTouchHandler(attributes.getInterceptTouchHandler(), view);
@@ -287,6 +289,10 @@ public class LithoViewAttributesExtension
       unsetLongClickHandler(view);
     }
 
+    if (attributes.getContextClickHandler() != null) {
+      unsetContextClickHandler(view);
+    }
+
     if (attributes.getFocusChangeHandler() != null) {
       unsetFocusChangeHandler(view);
     }
@@ -327,6 +333,7 @@ public class LithoViewAttributesExtension
 
     view.setClickable(isViewClickable(mountFlags));
     view.setLongClickable(isViewLongClickable(mountFlags));
+    view.setContextClickable(isViewContextClickable(mountFlags));
 
     unsetFocusable(view, mountFlags);
     unsetEnabled(view, mountFlags);
@@ -442,6 +449,52 @@ public class LithoViewAttributesExtension
     } else {
       v.setOnLongClickListener(listener);
       v.setTag(R.id.component_long_click_listener, listener);
+    }
+  }
+
+  /**
+   * Installs the context click listeners that will dispatch the context click handler defined in
+   * the component's props. Unconditionally set the context clickable flag on the view.
+   */
+  private static void setContextClickHandler(
+      @Nullable EventHandler<ContextClickEvent> contextClickHandler, View view) {
+    if (contextClickHandler != null) {
+      ComponentContextClickListener listener = getComponentContextClickListener(view);
+
+      if (listener == null) {
+        listener = new ComponentContextClickListener();
+        setComponentContextClickListener(view, listener);
+      }
+
+      listener.setEventHandler(contextClickHandler);
+
+      view.setContextClickable(true);
+    }
+  }
+
+  private static void unsetContextClickHandler(View view) {
+    final ComponentContextClickListener listener = getComponentContextClickListener(view);
+
+    if (listener != null) {
+      listener.setEventHandler(null);
+    }
+  }
+
+  @Nullable
+  static ComponentContextClickListener getComponentContextClickListener(View v) {
+    if (v instanceof ComponentHost) {
+      return ((ComponentHost) v).getComponentContextClickListener();
+    } else {
+      return (ComponentContextClickListener) v.getTag(R.id.component_long_click_listener);
+    }
+  }
+
+  static void setComponentContextClickListener(View v, ComponentContextClickListener listener) {
+    if (v instanceof ComponentHost) {
+      ((ComponentHost) v).setComponentContextClickListener(listener);
+    } else {
+      v.setOnContextClickListener(listener);
+      v.setTag(R.id.component_context_click_listener, listener);
     }
   }
 

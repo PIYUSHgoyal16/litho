@@ -135,6 +135,8 @@ public class NodeInfo implements Equivalence<NodeInfo> {
   private static final int PFLAG_ON_POPULATE_ACCESSIBILITY_NODE_HANDLER_IS_SET = 1 << 29;
   // When this flag is set, view id was explicitly set on this node
   private static final int PFLAG_VIEW_ID_IS_SET = 1 << 30;
+  // When this flag is set, contextClickHandler was explicitly set on this node.
+  private static final int PFLAG_CONTEXT_CLICK_HANDLER_IS_SET = 1 << 31;
 
   private @Nullable CharSequence mContentDescription;
   private int mViewId = View.NO_ID;
@@ -156,6 +158,7 @@ public class NodeInfo implements Equivalence<NodeInfo> {
   private @Nullable EventHandler<ClickEvent> mClickHandler;
   private @Nullable EventHandler<FocusChangedEvent> mFocusChangeHandler;
   private @Nullable EventHandler<LongClickEvent> mLongClickHandler;
+  private @Nullable EventHandler<ContextClickEvent> mContextClickHandler;
   private @Nullable EventHandler<TouchEvent> mTouchHandler;
   private @Nullable EventHandler<InterceptTouchEvent> mInterceptTouchHandler;
   private @Nullable @AccessibilityRoleType String mAccessibilityRole;
@@ -309,6 +312,16 @@ public class NodeInfo implements Equivalence<NodeInfo> {
     return mLongClickHandler;
   }
 
+  public void setContextClickHandler(
+      @Nullable EventHandler<ContextClickEvent> contextClickHandler) {
+    mPrivateFlags |= PFLAG_CONTEXT_CLICK_HANDLER_IS_SET;
+    mContextClickHandler = contextClickHandler;
+  }
+
+  public @Nullable EventHandler<ContextClickEvent> getContextClickHandler() {
+    return mContextClickHandler;
+  }
+
   public void setFocusChangeHandler(@Nullable EventHandler<FocusChangedEvent> focusChangedHandler) {
     mPrivateFlags |= PFLAG_FOCUS_CHANGE_HANDLER_IS_SET;
     mFocusChangeHandler = focusChangedHandler;
@@ -344,6 +357,7 @@ public class NodeInfo implements Equivalence<NodeInfo> {
   public boolean hasTouchEventHandlers() {
     return mClickHandler != null
         || mLongClickHandler != null
+        || mContextClickHandler != null
         || mTouchHandler != null
         || mInterceptTouchHandler != null;
   }
@@ -760,6 +774,9 @@ public class NodeInfo implements Equivalence<NodeInfo> {
     }
     if ((mPrivateFlags & PFLAG_LONG_CLICK_HANDLER_IS_SET) != 0) {
       target.setLongClickHandler(mLongClickHandler);
+    }
+    if ((mPrivateFlags & PFLAG_CONTEXT_CLICK_HANDLER_IS_SET) != 0) {
+      target.setContextClickHandler(mContextClickHandler);
     }
     if ((mPrivateFlags & PFLAG_FOCUS_CHANGE_HANDLER_IS_SET) != 0) {
       target.setFocusChangeHandler(mFocusChangeHandler);

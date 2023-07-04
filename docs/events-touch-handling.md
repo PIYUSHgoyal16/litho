@@ -3,9 +3,9 @@ id: events-touch-handling
 title: Touch Handling
 ---
 
-All components support touch handling through the framework's event system. All components can handle the following events by default: `ClickEvent`, `LongClickEvent`, and `TouchEvent`.
+All components support touch handling through the framework's event system. All components can handle the following events by default: `ClickEvent`, `ContextClickEvent`, `LongClickEvent`, and `TouchEvent`.
 
-This means all layout builders have an `EventHandler` prop named `clickHandler`, `longClickHandler`, and `touchHandler` respectively. Specify the event class you want to handle as an argument to the `@OnEvent` annotation.
+This means all layout builders have an `EventHandler` prop named `clickHandler`, `contextClickHandler`, `longClickHandler`, and `touchHandler` respectively. Specify the event class you want to handle as an argument to the `@OnEvent` annotation.
 
 For example, setting a click handler on any component is as simple as:
 

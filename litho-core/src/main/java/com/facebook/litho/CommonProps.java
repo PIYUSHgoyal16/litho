@@ -390,6 +390,15 @@ public final class CommonProps implements LayoutProps, Equivalence<CommonProps> 
     return getOrCreateNodeInfo().getLongClickHandler();
   }
 
+  public void contextClickHandler(@Nullable EventHandler<ContextClickEvent> contextClickHandler) {
+    getOrCreateNodeInfo().setContextClickHandler(contextClickHandler);
+  }
+
+  @Nullable
+  public EventHandler<ContextClickEvent> getContextClickHandler() {
+    return getOrCreateNodeInfo().getContextClickHandler();
+  }
+
   public void focusChangeHandler(@Nullable EventHandler<FocusChangedEvent> focusChangeHandler) {
     getOrCreateNodeInfo().setFocusChangeHandler(focusChangeHandler);
   }

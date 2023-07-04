@@ -19,6 +19,7 @@ This page contains a detailed API reference for the Litho's component common pro
 * [`ClipChildren`](#clipchildren)
 * [`ClipToOutline`](#cliptooutline)
 * [`ContentDescription`](#contentdescription)
+* [`ContextClickHandler`](#contextclickhandler)
 * [`DispatchPopulateAccessibilityEventHandler`](#dispatchpopulateaccessibilityeventhandler)
 * [`DuplicateParentState`](#duplicateparentstate)
 * [`EnabledState`](#enabledstate)
@@ -182,6 +183,10 @@ MyComponent.create(c)
  {...}
 
 ### ContentDescription
+
+ {...}
+
+### ContextClickHandler
 
  {...}
 

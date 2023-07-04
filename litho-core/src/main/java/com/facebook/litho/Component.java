@@ -1275,6 +1275,11 @@ public abstract class Component implements Cloneable, Equivalence<Component>, At
           mContext.getAndroidContext().getResources().getString(stringId, formatArgs));
     }
 
+    public T contextClickHandler(@Nullable EventHandler<ContextClickEvent> contextClickHandler) {
+      mComponent.getOrCreateCommonProps().contextClickHandler(contextClickHandler);
+      return getThis();
+    }
+
     public T dispatchPopulateAccessibilityEventHandler(
         @Nullable
             EventHandler<DispatchPopulateAccessibilityEventEvent>

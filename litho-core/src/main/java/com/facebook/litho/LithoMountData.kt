@@ -40,6 +40,7 @@ class LithoMountData(content: Any?) {
     private const val FLAG_VIEW_SELECTED = 1 shl 4
     private const val FLAG_VIEW_LAYER_TYPE_0 = 1 shl 5
     private const val FLAG_VIEW_LAYER_TYPE_1 = 1 shl 6
+    private const val FLAG_VIEW_CONTEXT_CLICKABLE = 1 shl 7;
 
     /** @return Whether the view associated with this MountItem is clickable. */
     @JvmStatic
@@ -49,6 +50,11 @@ class LithoMountData(content: Any?) {
     @JvmStatic
     fun isViewLongClickable(flags: Int): Boolean =
         flags and FLAG_VIEW_LONG_CLICKABLE == FLAG_VIEW_LONG_CLICKABLE
+
+    /** @return Whether the view associated with this MountItem is context clickable. */
+    @JvmStatic
+    fun isViewContextClickable(flags: Int): Boolean =
+        flags and FLAG_VIEW_CONTEXT_CLICKABLE == FLAG_VIEW_CONTEXT_CLICKABLE
 
     /** @return Whether the view associated with this MountItem is setFocusable. */
     @JvmStatic
@@ -88,6 +94,9 @@ class LithoMountData(content: Any?) {
         }
         if (content.isLongClickable) {
           flags = flags or FLAG_VIEW_LONG_CLICKABLE
+        }
+        if (content.isContextClickable) {
+          flags = flags or FLAG_VIEW_CONTEXT_CLICKABLE
         }
         if (content.isFocusable) {
           flags = flags or FLAG_VIEW_FOCUSABLE

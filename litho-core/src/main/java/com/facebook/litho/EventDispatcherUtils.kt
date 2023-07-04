@@ -65,6 +65,17 @@ internal object EventDispatcherUtils {
   }
 
   @JvmStatic
+  fun dispatchOnContextClick(contextClickHandler: EventHandler<ContextClickEvent>, view: View): Boolean {
+    ThreadUtils.assertMainThread()
+    val contextClickEvent = ContextClickEvent()
+    contextClickEvent.view = view
+    val eventDispatcher =
+        checkNotNull(contextClickHandler.dispatchInfo.hasEventDispatcher).eventDispatcher
+    val returnValue = eventDispatcher.dispatchOnEvent(contextClickHandler, contextClickEvent)
+    return returnValue != null && returnValue as Boolean
+  }
+
+  @JvmStatic
   fun dispatchOnTouch(
       touchHandler: EventHandler<TouchEvent>,
       view: View,
